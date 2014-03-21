@@ -11,10 +11,16 @@ import java.util.ArrayList;
  * 
  */
 public class MM {
-	public static void main(String[] args){
+	public static void main(String[] args) throws FileNotFoundException{
 		//Input files from current directories
 		ArrayList<String> arrayListA = inputFile("matrixA.txt");
 		ArrayList<String> arrayListB = inputFile("matrixB.txt");
+		
+		//Checks to make sure files are there
+		if(arrayListA.isEmpty() || arrayListB.isEmpty()){
+			System.out.println("ERROR: cannot locate file or files");
+			throw new FileNotFoundException();
+		} 
 
 		//Parse file a into 2d array
 		int colA = getCols(arrayListA);
@@ -26,6 +32,9 @@ public class MM {
 		int[][] matrixB = new int[arrayListB.size()][colB];
 		matrixAdd(arrayListB, matrixB);
 
+		System.out.println(toString(matrixA));    
+		System.out.println(toString(matrixB));
+		
 		//Multiply array
 		int[][] matrixC = matrixMultiplication(matrixA, matrixB);
 		System.out.println(toString(matrixA));
@@ -61,9 +70,10 @@ public class MM {
                 char c = currRow.charAt(j);
                 if(c == ' '){
                 }
-                else if(c == '-'){                   
-                }
-                else if(c >= '0' && c <= '9'){
+                else if(c == '-' || (c >= '0' && c <= '9')){
+                    if(j+1 < currRow.length() && (currRow.charAt(j+1) >= '0' && currRow.charAt(j+1) <= '9')){
+                        currRowCols--;
+                    }
                     currRowCols++;
                 }
             }
@@ -73,7 +83,7 @@ public class MM {
             }
         }
         return cols;
-    }	
+    }
     /**
      * Parses the array from a specified file into a 2d array
      * @param stringMatrix The string array matrix to be parsed into a 2d array
@@ -87,7 +97,7 @@ public class MM {
     		while(pos < line.length()){
     			String addNumber = "";
     			boolean cont = true;
-    			while(cont && pos < line.length()){ //...quick fix to prevent string out of bounds exceptions
+    			while(cont && pos < line.length()){
     				char c = line.charAt(pos);
 					switch(c){
 						case '0':
@@ -108,11 +118,11 @@ public class MM {
 					}
 					pos++;
         		}
-        		intMatrix[row][col] = Integer.parseInt(addNumber); 		
+	        	intMatrix[row][col] = Integer.parseInt(addNumber);
         		col++;
     		}
     		row++;
-    	}   
+    	}  
     }
     
     public static int[][] matrixMultiplication(int[][] matrixA, int[][] matrixB){
