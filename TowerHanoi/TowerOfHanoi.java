@@ -10,7 +10,7 @@ public class TowerOfHanoi{
 	 *
 	 */
 	public static void main(String[] args){
-		System.out.println(move(3, 'a', 'c', 'b'));
+		System.out.println(move(6, 'a', 'c', 'b'));
 	
 	}
 	/*

@@ -8,9 +8,16 @@ import java.util.logging.Logger;
 import java.util.ArrayList;
 
 /**
- * 
+ * MM class
+ * Receives two files of integers and converts them into matrices. 
+ * It then multiplies the matrices, if able
+ * If it cannot multiply the matrices because of improper dimensions,
+ * it throws an error message
  */
 public class MM {
+	/**
+ 	 * Main method of the MM class
+ 	 */
 	public static void main(String[] args) throws FileNotFoundException{
 		//Input files from current directories
 		ArrayList<String> arrayListA = inputFile("matrixA.txt");
@@ -31,19 +38,18 @@ public class MM {
 		int colB = getCols(arrayListB);
 		int[][] matrixB = new int[arrayListB.size()][colB];
 		matrixAdd(arrayListB, matrixB);
-
-		System.out.println(toString(matrixA));    
-		System.out.println(toString(matrixB));
 		
 		//Multiply array
 		int[][] matrixC = matrixMultiplication(matrixA, matrixB);
-		System.out.println(toString(matrixA));
-		System.out.println(toString(matrixB));
-		System.out.println(toString(matrixC));
 		
 		//Save to file c		
 		outputFile(toString(matrixC));
 	}
+	/**
+ 	 * inputFile reads from the current fileDirectory
+ 	 * @param	String fileName	The name of the file to lookup
+ 	 * @return	ArrayList<String> An ArrayList that holds each line of the text file
+ 	 */
 	public static ArrayList<String> inputFile(String fileName){
 		ArrayList<String> arrayListLines = new ArrayList<>();
 		String line = "";
@@ -60,6 +66,11 @@ public class MM {
             return arrayListLines;
         }
 	}
+	/**
+ 	 * getCols Gets the number of columns from the text file
+ 	 * @param	ArrayList<String> fileA	The arrayList to get the number of columns
+ 	 * @return	int	The number of columns in the ArrayList
+ 	 */
     public static int getCols(ArrayList<String> fileA) {
         int cols = 0;
         int currRowCols;
@@ -124,7 +135,14 @@ public class MM {
     		row++;
     	}  
     }
-    
+    /**
+     * matrixMultiplication multiplies two matrices
+     *
+     * @param int[][] matrixA is a 2d array to be multiplied
+     * @param int[][] matrixB is a 2d array to be multiplied
+	 *
+     * @return int[][] the result matrix of multiplying matrixA & matrixB
+     */
     public static int[][] matrixMultiplication(int[][] matrixA, int[][] matrixB){
     	int mA = matrixA.length;
     	int nA = matrixA[0].length;
@@ -142,7 +160,7 @@ public class MM {
     	}
     	return matrixC;	
     }  
-    public static String toString(int[][] matrix){
+    private static String toString(int[][] matrix){
     	String outputString = "";
     	for(int i = 0; i < matrix.length; i++){
     		for(int j = 0; j < matrix[i].length; j++){
@@ -156,6 +174,10 @@ public class MM {
     	return outputString;
     
     }
+	/**
+ 	 * outputFile accepts a string and outputs it to matrxAnswer.txt
+ 	 * @param	String matrixC	The string version of the outputted matrix
+ 	 */
     public static void outputFile(String matrixC){
         PrintWriter out = null;
         try {
